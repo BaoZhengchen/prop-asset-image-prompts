@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>示例 · 道具资产提示词</title>
+<style>
+  body { max-width: 56rem; margin: 2rem auto; padding: 0 1rem; font: 1rem/1.6 system-ui, sans-serif; }
+  article { border: 1px solid #777; border-radius: .5rem; padding: 1rem; }
+  pre { white-space: pre-wrap; overflow-wrap: anywhere; padding: 1rem; background: #f2f2f2; color: #242424; }
+  table { width: 100%; border-collapse: collapse; }
+  th, td { text-align: left; padding: .35rem .5rem; border-bottom: 1px solid #aaa; }
+  button { font: inherit; cursor: pointer; }
+</style>
+</head>
+<body>
+<main>
+<h1>道具资产提示词</h1>
+<p>本版 1 卡 · 3 个视图</p>
+<article>
+  <h2><span class="prop-no">P-01</span> <span id="n1">骨瓷茶杯</span></h2>
+  <button type="button" onclick="copyText('n1', this)">复制名称</button>
+  <p>第 1 集第 2 场 · 空杯 · 单品 v1.0</p>
+  <pre class="prompt" id="p1">横版三格拼图，三格左右等分，背景为均匀纯色中性灰，色值 #767676。
+左格呈现骨瓷茶杯正面。中格呈现同一茶杯的侧面。右格呈现同一茶杯的俯视。
+茶杯为暖白色骨瓷，敞口浅身，圆形圈足，一侧连接弧形杯耳。
+三格保持相同轮廓、比例和釉面，茶杯居中，柔和均匀布光。
+每格正下方用白色无衬线字体标注视图名称，依次为正视图、侧视图、俯视图。
+尺寸标在杯旁留白处，使用黑色细实线、尺寸界线、箭头和黑色无衬线小字。
+左格标注杯口外径 9cm 与杯高 6cm。
+中格标注杯耳内空宽 3cm 与内空高 2.5cm。
+右格标注杯耳外缘至杯壁的水平距离 2cm。
+画面文字仅包含尺寸数字和视图名称。</pre>
+  <button type="button" onclick="copyPre('p1', this)">一键复制</button>
+  <h3>尺寸依据</h3>
+  <table>
+    <thead><tr><th>视图</th><th>标注项</th><th>取值</th><th>依据</th></tr></thead>
+    <tbody>
+      <tr><td>正视</td><td>口径、杯高</td><td>9cm、6cm</td><td>骨瓷茶杯口径 8.5–9.5cm、高 5.5–6.5cm，取中值。</td></tr>
+      <tr><td>侧视</td><td>杯耳内空宽、高</td><td>3cm、2.5cm</td><td>内空宽 28–32mm、高 22–28mm，各取中值。</td></tr>
+      <tr><td>俯视</td><td>杯耳伸出</td><td>2cm</td><td>杯耳伸出 15–25mm，取中值。</td></tr>
+    </tbody>
+  </table>
+</article>
+<h2>道具资产表</h2>
+<table>
+  <thead><tr><th>编号</th><th>道具</th><th>集场</th><th>状态</th></tr></thead>
+  <tbody>
+    <tr><td>P-01</td><td>骨瓷茶杯</td><td>第 1 集第 2 场</td><td>空杯</td></tr>
+  </tbody>
+</table>
+<h2>未落卡与修正记录</h2>
+<p>本示例覆盖 1 件道具。</p>
+<p id="copy-status" role="status"></p>
+</main>
+<script>
+  async function copyText(id, button) {
+    const source = document.getElementById(id);
+    const status = document.getElementById('copy-status');
+    try {
+      await navigator.clipboard.writeText(source.textContent);
+      status.textContent = button.textContent === '复制名称' ? '已复制道具名称。' : '已复制提示词。';
+    } catch {
+      const range = document.createRange();
+      range.selectNodeContents(source);
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+      status.textContent = '已选中文本，请使用浏览器的复制快捷键。';
+    }
+  }
+
+  function copyPre(id, button) {
+    return copyText(id, button);
+  }
+</script>
+</body>
+</html>
